@@ -10,7 +10,7 @@ const passport = require('passport')
 const indexRouter = require('./routes/index');
 // const usersRouter = require('./routes/users');
 
-const usersRouter = require('./routes/api/users');
+const authRouter = require('./routes/api/auth');
 
 const app = express();
 
@@ -47,7 +47,7 @@ require("./config/passport")(passport);
 
 // TODO: Refactor into routes file
 app.use('/', indexRouter);
-app.use("/api/users", usersRouter);
+app.use("/api/auth", authRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
