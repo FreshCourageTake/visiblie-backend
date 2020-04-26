@@ -3,11 +3,14 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-// const bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const passport = require('passport')
 
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
+// const usersRouter = require('./routes/users');
+
+const usersRouter = require('./routes/api/users');
 
 const app = express();
 
@@ -15,11 +18,11 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-// app.use(
-//   bodyParser.urlencoded({
-//     extended: false
-//   })
-// );
+app.use(
+  bodyParser.urlencoded({
+    extended: false
+  })
+);
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -36,9 +39,15 @@ mongoose.connect(db, {
 .then(() => console.log('mongodb successfully connected'))
 .catch(error => console.log(error))
 
+// Passport middleware
+app.use(passport.initialize());
+
+// Passport config
+require("./config/passport")(passport);
+
 // TODO: Refactor into routes file
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use("/api/users", usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
