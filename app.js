@@ -6,6 +6,7 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const passport = require('passport')
+const cors = require('cors')
 
 const indexRouter = require('./routes/index');
 // const usersRouter = require('./routes/users');
@@ -18,6 +19,7 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+app.use(cors())
 app.use(
   bodyParser.urlencoded({
     extended: false
